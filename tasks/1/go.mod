@@ -1,4 +1,4 @@
-module wb-l2
+module task1
 
 go 1.20
 
