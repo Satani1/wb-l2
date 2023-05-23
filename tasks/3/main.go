@@ -7,8 +7,8 @@ import (
 
 /*
 Example of run:
-go run main.go "./test/nums.txt" -n true
-go run main.go "./test/text.txt" -r true -u true
+go run main.go -n true "./test/nums.txt"
+go run main.go  -r true -u=true "./test/text.txt"
 */
 func main() {
 	os.Exit(strings_sort.CLI(os.Args[1:]))
