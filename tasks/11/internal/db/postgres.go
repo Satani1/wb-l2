@@ -27,16 +27,12 @@ func (pr *PostgresRepository) Close() {
 }
 
 func (pr *PostgresRepository) Create(event models.Event) (int64, error) {
-	query := `insert into events (title, date) values ($1, $2)`
-	res, err := pr.db.Exec(query, event.Title, event.Date)
+	query := `insert into events (title, date) values ($1, $2) returning id_event`
+	err := pr.db.QueryRow(query, event.Title, event.Date).Scan(&event.ID)
 	if err != nil {
 		return -1, err
 	}
-	id, err := res.LastInsertId()
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+	return event.ID, nil
 }
 
 func (pr *PostgresRepository) Update(id int64, title string, date time.Time) error {
@@ -58,14 +54,63 @@ func (pr *PostgresRepository) Delete(id int) error {
 	return nil
 }
 
-func (pr *PostgresRepository) GetForDay(date time.Time) []models.Event {
-	return nil
+func (pr *PostgresRepository) GetForDay(date time.Time) ([]models.Event, error) {
+	query := `select * from events where date = $1`
+
+	var events []models.Event
+	rows, err := pr.db.Query(query, date)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var event models.Event
+		err := rows.Scan(&event.Title, &event.Date, &event.ID)
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
 }
 
-func (pr *PostgresRepository) GetForWeek(date time.Time) []models.Event {
-	return nil
+func (pr *PostgresRepository) GetForWeek(date time.Time) ([]models.Event, error) {
+	query := `select * from events where date between $1 and $2`
+	dateAfter := date.AddDate(0, 0, 4)
+	dateBefore := date.AddDate(0, 0, -4)
+
+	var events []models.Event
+	rows, err := pr.db.Query(query, dateBefore, dateAfter)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var event models.Event
+		err := rows.Scan(&event.Title, &event.Date, &event.ID)
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
 }
 
-func (pr *PostgresRepository) GetForMonth(date time.Time) []models.Event {
-	return nil
+func (pr *PostgresRepository) GetForMonth(date time.Time) ([]models.Event, error) {
+	query := `select * from events where date between $1 and $2`
+	dateAfter := date.AddDate(0, 0, 15)
+	dateBefore := date.AddDate(0, 0, -15)
+
+	var events []models.Event
+	rows, err := pr.db.Query(query, dateBefore, dateAfter)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var event models.Event
+		err := rows.Scan(&event.Title, &event.Date, &event.ID)
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
 }
