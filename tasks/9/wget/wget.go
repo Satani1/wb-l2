@@ -33,26 +33,27 @@ func CLI(args []string) int {
 }
 
 func (app *Application) fromArgs(args []string) error {
-	flagSet := flag.NewFlagSet("wget", flag.ContinueOnError)
-
-	flagSet.StringVar(&app.outputFile, "o", "", "Path to output file;")
-	flagSet.IntVar(&app.depth, "l", -1, "Max number of recursive download. Default is not set;")
-	flagSet.BoolVar(&app.recursive, "r", false, "Turn on/off recursive download;")
-	flagSet.BoolVar(&app.pageRequisites, "p", false, "Download all files that are necessary to display a HTML page;")
+	flagSet := flag.NewFlagSet("go-wget", flag.ContinueOnError)
+	flagSet.StringVar(&app.outputFile, "O", "", "Path to output file")
+	flagSet.IntVar(&app.depth, "l", -1, "Maximum number of links to follow when building downloading the site. By default depth is not set")
+	flagSet.BoolVar(&app.recursive, "r", false, "Turn on recursive retriving")
+	flagSet.BoolVar(&app.pageRequisites, "p", false, "Download all the files that are necessary to properly display a given HTML page")
 
 	if err := flagSet.Parse(args); err != nil {
 		return err
 	}
 
-	u, err := url.Parse(flag.Arg(0))
+	u, err := url.Parse(flagSet.Arg(0))
 	if err != nil {
 		return err
 	}
 	app.link = u
+	app.depth++
 
 	if app.outputFile == "" {
 		app.outputFile = path.Base(app.link.Path)
 	}
+
 	return nil
 }
 
@@ -98,6 +99,6 @@ func download(url, filePath string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Downloaded a file [%s] with size [%s] bytes\n", filePath, size)
+	fmt.Printf("Downloaded a file [%s] with size [%d] bytes\n", filePath, size)
 	return nil
 }
