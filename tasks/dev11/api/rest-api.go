@@ -41,7 +41,7 @@ func (app *Application) NewRouter() *http.ServeMux {
 
 // IdleHandle [GET] - test
 func (app *Application) IdleHandle(w http.ResponseWriter, r *http.Request) {
-	jRender.JSON(w, r, http.StatusOK, "im a http-server for WB L2 :3")
+	jRender.JSON(w, r, http.StatusOK, "im a http-server for WB L2 :dev03")
 }
 
 // Create [POST] - create an event

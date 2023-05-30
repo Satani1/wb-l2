@@ -3,8 +3,8 @@ package main
 import "chain/pkg"
 
 func main() {
-	device1 := &pkg.Device{Name: "device-1"}
-	updateSrv := &pkg.UpdateDataService{Name: "update-1"}
+	device1 := &pkg.Device{Name: "device-dev01"}
+	updateSrv := &pkg.UpdateDataService{Name: "update-dev01"}
 	saveSrv := &pkg.DataService{}
 
 	device1.SetNext(updateSrv)

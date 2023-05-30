@@ -11,22 +11,22 @@ var (
 		Cards: []pkg.Card{},
 	}
 	card1 = pkg.Card{
-		Name:    "card-1",
+		Name:    "card-dev01",
 		Balance: 200,
 		Bank:    &bank,
 	}
 	card2 = pkg.Card{
-		Name:    "card-2",
+		Name:    "card-dev02",
 		Balance: 10,
 		Bank:    &bank,
 	}
 
 	user1 = pkg.User{
-		Name: "user-1",
+		Name: "user-dev01",
 		Card: &card1,
 	}
 	user2 = pkg.User{
-		Name: "user-2",
+		Name: "user-dev02",
 		Card: &card2,
 	}
 	product1 = pkg.Product{
@@ -34,7 +34,7 @@ var (
 		Price: 150,
 	}
 	shop = pkg.Shop{
-		Name: "shop-1",
+		Name: "shop-dev01",
 		Products: []pkg.Product{
 			product1,
 		},

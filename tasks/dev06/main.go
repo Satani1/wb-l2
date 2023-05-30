@@ -22,7 +22,7 @@ func main() {
 //	err := fromArgs(args)
 //	if err != nil {
 //		fmt.Println(err)
-//		return 2
+//		return dev02
 //	}
 //
 //	return 0
@@ -31,8 +31,8 @@ func main() {
 //
 //	fl := flag.NewFlagSet("grep", flag.ContinueOnError)
 //
-//	fl.IntVar(&app.f1, "f1", 0, "f1 1/0")
-//	fl.IntVar(&app.f2, "f2", 0, "f2 1/0")
+//	fl.IntVar(&app.f1, "f1", 0, "f1 dev01/0")
+//	fl.IntVar(&app.f2, "f2", 0, "f2 dev01/0")
 //	fl.BoolVar(&app.b1, "b1", false, "b1 t/f")
 //	fl.BoolVar(&app.b2, "b2", true, "b2 t/f")
 //
